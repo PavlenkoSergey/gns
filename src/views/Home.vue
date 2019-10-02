@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        <b-alert v-if="isShowInfo" :show="isShowInfo" :fade="true" dismissible @dismissed="setShown">If you want to sort the table, click
-            on the respective
-            column header
-        </b-alert>
+        <b-alert :show="isShowInfo" :fade="true" dismissible @dismissed="setShown">If you want to sort the table, click on the respective column header</b-alert>
+
         <Search v-model="searchQuery" keyValue="name"/>
         <Total :list="filteredData" keyValue="currency"></Total>
-        <Table :table-data="filteredData"/>
+        <Table v-if="!noData" :table-data="filteredData"/>
+
+        <b-alert :show="noData" :fade="true" variant="warning">Nothing found</b-alert>
     </div>
 </template>
 
@@ -39,7 +39,10 @@
 		computed: {
 			filteredData () {
 				return this.$store.getters.filterData(this.searchQuery)
-			}
+			},
+            noData() {
+				return !this.filteredData.length
+            }
 		},
 		created () {
 			this.isShowInfo = !localStorage.getItem('infoShown');

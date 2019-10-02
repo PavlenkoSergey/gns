@@ -27,6 +27,7 @@
 
 <style lang="scss">
     .search-block {
+        margin-top: 50px;
         position: relative;
         button {
             position: absolute;
